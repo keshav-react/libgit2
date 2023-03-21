@@ -302,7 +302,11 @@ int p_munmap(git_map *map)
 
 #endif
 
-#if !defined(GIT_IO_POLL) && defined(GIT_IO_SELECT)
+#if defined(GIT_IO_POLL) || defined(GIT_IO_WSAPOLL)
+
+/* Handled by posix.h; this test simplifies the final else */
+
+#elif defined(GIT_IO_SELECT)
 
 int p_poll(struct pollfd *fds, unsigned int nfds, int timeout_ms)
 {
@@ -348,6 +352,6 @@ done:
 	return ret;
 }
 
-#elif !defined(GIT_IO_POLL)
+#else
 # error no poll compatible implementation
 #endif

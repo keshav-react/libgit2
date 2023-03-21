@@ -439,6 +439,7 @@ int git_libgit2_opts(int key, ...)
 
 	case GIT_OPT_GET_SERVER_CONNECT_TIMEOUT:
 		*(va_arg(ap, int *)) = git_socket_stream__connect_timeout;
+		break;
 
 	case GIT_OPT_SET_SERVER_CONNECT_TIMEOUT:
 		{
@@ -455,6 +456,7 @@ int git_libgit2_opts(int key, ...)
 
 	case GIT_OPT_GET_SERVER_TIMEOUT:
 		*(va_arg(ap, int *)) = git_socket_stream__timeout;
+		break;
 
 	case GIT_OPT_SET_SERVER_TIMEOUT:
 		{

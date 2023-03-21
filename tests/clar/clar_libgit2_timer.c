@@ -13,7 +13,7 @@ void cl_perf_timer__start(cl_perf_timer *t)
 
 void cl_perf_timer__stop(cl_perf_timer *t)
 {
-	double time_now = git_time_monotonic();
+	uint64_t time_now = git_time_monotonic();
 
 	t->last = time_now - t->time_started;
 	t->sum += t->last;

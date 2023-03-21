@@ -4,13 +4,13 @@
 struct cl_perf_timer
 {
 	/* cumulative running time across all start..stop intervals */
-	double sum;
+	uint64_t sum;
 
 	/* value of last start..stop interval */
-	double last;
+	uint64_t last;
 
 	/* clock value at start */
-	double time_started;
+	uint64_t time_started;
 };
 
 #define CL_PERF_TIMER_INIT {0}

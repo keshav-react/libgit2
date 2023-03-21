@@ -72,6 +72,11 @@ check_function_exists(qsort_s GIT_QSORT_S)
 check_function_exists(getentropy GIT_RAND_GETENTROPY)
 check_function_exists(getloadavg GIT_RAND_GETLOADAVG)
 
+# poll
+
+check_function_exists(poll GIT_IO_POLL)
+check_function_exists(select GIT_IO_SELECT)
+
 # determine architecture of the machine
 
 if(CMAKE_SIZEOF_VOID_P EQUAL 8)

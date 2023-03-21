@@ -211,7 +211,7 @@ static int fetch_receiving(
 	    now - progress->throughput_update < THROUGHPUT_UPDATE_TIME) {
 		elapsed = progress->throughput_update -
 		          progress->action_start;
-		recv_len = (double)progress->throughput_bytes;
+		recv_len = progress->throughput_bytes;
 	} else {
 		elapsed = now - progress->action_start;
 		recv_len = (double)stats->received_bytes;

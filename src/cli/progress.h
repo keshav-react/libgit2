@@ -43,7 +43,7 @@ typedef struct {
 
 	/* Last update about throughput */
 	uint64_t throughput_update;
-	uint64_t throughput_bytes;
+	double throughput_bytes;
 } cli_progress;
 
 #define CLI_PROGRESS_INIT { 0 }

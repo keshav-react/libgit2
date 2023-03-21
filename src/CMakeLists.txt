@@ -75,6 +75,7 @@ check_function_exists(getloadavg GIT_RAND_GETLOADAVG)
 # poll
 
 check_function_exists(poll GIT_IO_POLL)
+check_function_exists(WSAPoll GIT_IO_WSAPOLL)
 check_function_exists(select GIT_IO_SELECT)
 
 # determine architecture of the machine

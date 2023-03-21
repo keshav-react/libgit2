@@ -191,9 +191,9 @@ static int fetch_receiving(
 {
 	char *recv_units[] = { "B", "KiB", "MiB", "GiB", "TiB", NULL };
 	char *rate_units[] = { "B/s", "KiB/s", "MiB/s", "GiB/s", "TiB/s", NULL };
-	uint64_t now;
+	uint64_t now, elapsed;
 
-	double recv_len, rate, elapsed;
+	double recv_len, rate;
 	size_t recv_unit_idx = 0, rate_unit_idx = 0;
 	bool done = (stats->received_objects == stats->total_objects);
 
@@ -211,10 +211,10 @@ static int fetch_receiving(
 	    now - progress->throughput_update < THROUGHPUT_UPDATE_TIME) {
 		elapsed = progress->throughput_update -
 		          progress->action_start;
-		recv_len = progress->throughput_bytes;
+		recv_len = (double)progress->throughput_bytes;
 	} else {
 		elapsed = now - progress->action_start;
-		recv_len = stats->received_bytes;
+		recv_len = (double)stats->received_bytes;
 
 		progress->throughput_update = now;
 		progress->throughput_bytes = recv_len;

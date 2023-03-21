@@ -65,18 +65,18 @@ check_prototype_definition(qsort_r
 	"void qsort_r(void *base, size_t nmemb, size_t size, int (*compar)(const void *, const void *, void *), void *arg)"
 	"" "stdlib.h" GIT_QSORT_R_GNU)
 
-check_function_exists(qsort_s GIT_QSORT_S)
+check_symbol_exists(qsort_s stdlib.h GIT_QSORT_S)
 
 # random / entropy data
 
-check_function_exists(getentropy GIT_RAND_GETENTROPY)
-check_function_exists(getloadavg GIT_RAND_GETLOADAVG)
+check_symbol_exists(getentropy unistd.h GIT_RAND_GETENTROPY)
+check_symbol_exists(getloadavg stdlib.h GIT_RAND_GETLOADAVG)
 
 # poll
 
-check_function_exists(poll GIT_IO_POLL)
-check_function_exists(WSAPoll GIT_IO_WSAPOLL)
-check_function_exists(select GIT_IO_SELECT)
+check_symbol_exists(poll poll.h GIT_IO_POLL)
+check_symbol_exists(WSAPoll winsock2.h GIT_IO_WSAPOLL)
+check_symbol_exists(select sys/select.h GIT_IO_SELECT)
 
 # determine architecture of the machine
 

@@ -6,8 +6,8 @@
 # include <signal.h>
 #endif
 
-#ifndef SIGTERM
-# define SIGTERM 42
+#ifndef SIGKILL
+# define SIGKILL 9
 #endif
 
 #ifndef SIGPIPE
@@ -156,13 +156,13 @@ void test_process_start__catch_sigterm(void)
 
 	sleep(1);
 
-	cl_must_pass(kill(pid, SIGTERM));
+	cl_must_pass(kill(pid, SIGKILL));
 
 	cl_git_pass(git_process_wait(&result, process));
 
 	cl_assert_equal_i(GIT_PROCESS_STATUS_ERROR, result.status);
 	cl_assert_equal_i(0, result.exitcode);
-	cl_assert_equal_i(SIGTERM, result.signal);
+	cl_assert_equal_i(SIGKILL, result.signal);
 
 	git_process_free(process);
 #endif

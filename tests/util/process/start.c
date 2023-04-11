@@ -154,6 +154,8 @@ void test_process_start__catch_sigterm(void)
 	cl_git_pass(git_process_start(process));
 	cl_git_pass(git_process_id(&pid, process));
 
+	sleep(1);
+
 	cl_must_pass(kill(pid, SIGTERM));
 
 	cl_git_pass(git_process_wait(&result, process));

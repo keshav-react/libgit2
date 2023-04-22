@@ -135,7 +135,7 @@ static int merge_env(wchar_t **out, const char **in, size_t in_len, bool exclude
 			if ((ret = git__utf16_to_8(e8, ENV_MAX, e)) < 0)
 				goto done;
 
-			if (git_strings_contains_key(in, in_len, e8, '='))
+			if (git_strlist_contains_key(in, in_len, e8, '='))
 				continue;
 
 			git_str_put(&merged, (const char *)e, e_len * 2);

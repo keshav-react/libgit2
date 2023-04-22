@@ -12,6 +12,7 @@
 #include "git2_util.h"
 #include "vector.h"
 #include "process.h"
+#include "strlist.h"
 #include "git2/strarray.h"
 
 extern char **environ;
@@ -33,72 +34,6 @@ struct git_process {
 	int child_err;
 	git_process_result_status status;
 };
-
-static void strings_free_deep(char **strings)
-{
-	char **s;
-
-	if (!strings)
-		return;
-
-	for (s = strings; *s; s++)
-		git__free(*s);
-
-	git__free(strings);
-}
-
-static int strlist_copy_with_null(char ***out, const char **in, size_t len)
-{
-	char **dup;
-	size_t new_len, i;
-
-	GIT_ERROR_CHECK_ALLOC_ADD(&new_len, len, 1);
-
-	dup = git__calloc(new_len, sizeof(char *));
-	GIT_ERROR_CHECK_ALLOC(dup);
-
-	for (i = 0; i < len; i++) {
-		dup[i] = git__strdup(in[i]);
-		GIT_ERROR_CHECK_ALLOC(dup[i]);
-	}
-
-	*out = dup;
-	return 0;
-}
-
-static bool strlist_contains_prefix(
-	const char **strings,
-	size_t len,
-	const char *str,
-	size_t n)
-{
-	size_t i;
-
-	for (i = 0; i < len; i++) {
-		if (strncmp(strings[i], str, n) == 0)
-			return true;
-	}
-
-	return false;
-}
-
-static bool strlist_contains_key(
-	const char **strings,
-	size_t len,
-	const char *key,
-	char delimiter)
-{
-	const char *c;
-
-	for (c = key; *c; c++) {
-		if (*c == delimiter)
-			break;
-	}
-
-	return *c ?
-	       strlist_contains_prefix(strings, len, key, (c - key)) :
-	       false;
-}
 
 GIT_INLINE(bool) is_delete_env(const char *env)
 {
@@ -140,7 +75,7 @@ static int merge_env(
 
 	if (!exclude_env) {
 		for (kv = environ; *kv; kv++) {
-			if (env && strlist_contains_key(env, env_len, *kv, '='))
+			if (env && git_strlist_contains_key(env, env_len, *kv, '='))
 				continue;
 
 			dup = git__strdup(*kv);
@@ -185,7 +120,7 @@ int git_process_new(
 	process = git__calloc(sizeof(git_process), 1);
 	GIT_ERROR_CHECK_ALLOC(process);
 
-	if (strlist_copy_with_null(&process->args, args, args_len) < 0 ||
+	if (git_strlist_copy_with_null(&process->args, args, args_len) < 0 ||
 	    merge_env(&process->env, env, env_len, opts->exclude_env) < 0) {
 		git_process_free(process);
 		return -1;
@@ -568,7 +503,7 @@ void git_process_free(git_process *process)
 		git_process_close(process);
 
 	git__free(process->cwd);
-	strings_free_deep(process->args);
-	strings_free_deep(process->env);
+	git_strlist_free_with_null(process->args);
+	git_strlist_free_with_null(process->env);
 	git__free(process);
 }

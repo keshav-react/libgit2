@@ -292,12 +292,12 @@ int git_process_id(p_pid_t *out, git_process *process)
 {
 	GIT_ASSERT(out && process);
 
-	if (!process->process_information.dwProcessId) {
+	if (!process->process_info.dwProcessId) {
 		git_error_set(GIT_ERROR_INVALID, "process not running");
 		return -1;
 	}
 
-	*out = process->process_information.dwProcessId;
+	*out = process->process_info.dwProcessId;
 	return 0;
 }
 
